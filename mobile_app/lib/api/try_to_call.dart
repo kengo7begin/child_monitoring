@@ -1,13 +1,10 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<void> getData() async {
+Future<String> getData() async {
   var response = await http.get(Uri.https(
-    'p65d305bp9.execute-api.ap-northeast-1.amazonaws.com',
-    '/dev',
-  ));
+      '2ty3v8ae07.execute-api.ap-northeast-1.amazonaws.com',
+      'dev//startLiveCamera'));
 
-  var jsonResponse = jsonDecode(response.body);
-
-  print(jsonResponse);
+  print(response.statusCode);
+  return response.statusCode.toString();
 }
