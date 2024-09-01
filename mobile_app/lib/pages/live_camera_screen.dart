@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:new_project/api/try_to_call.dart';
+import 'package:new_project/api/start_live_camera.dart';
+import 'package:new_project/api/stop_live_camera.dart';
 import 'package:new_project/widgets/button.dart';
 
 class LiveCameraScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _LiveCameraScreenState extends State<LiveCameraScreen> {
     setState(() {
       isProgress = true;
     });
-    final status = await getData();
+    final status = await startLiveCamera();
     if (status == '200') {
       setState(() {
         isLive = true;
@@ -39,9 +40,18 @@ class _LiveCameraScreenState extends State<LiveCameraScreen> {
     });
   }
 
-  void _deactivateLiveCamera() {
+  Future<void> _deactivateLiveCamera() async {
     setState(() {
-      isLive = false;
+      isProgress = true;
+    });
+    final status = await stopLiveCamera();
+    if (status == '200') {
+      setState(() {
+        isLive = false;
+      });
+    }
+    setState(() {
+      isProgress = false;
     });
   }
 
