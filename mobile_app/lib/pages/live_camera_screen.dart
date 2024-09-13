@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:new_project/api/start_live_camera.dart';
 import 'package:new_project/api/stop_live_camera.dart';
 import 'package:new_project/widgets/button.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class LiveCameraScreen extends StatefulWidget {
   const LiveCameraScreen({
@@ -57,6 +58,7 @@ class _LiveCameraScreenState extends State<LiveCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WakelockPlus.enable();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
