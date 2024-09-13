@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mjpeg/flutter_mjpeg.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:new_project/api/start_live_camera.dart';
 import 'package:new_project/api/stop_live_camera.dart';
+import 'package:new_project/view_model/app_lifecycle_observer.dart';
 import 'package:new_project/widgets/button.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
-class LiveCameraScreen extends StatefulWidget {
+class LiveCameraScreen extends ConsumerStatefulWidget {
   const LiveCameraScreen({
     super.key,
   });
@@ -14,7 +17,7 @@ class LiveCameraScreen extends StatefulWidget {
   _LiveCameraScreenState createState() => _LiveCameraScreenState();
 }
 
-class _LiveCameraScreenState extends State<LiveCameraScreen> {
+class _LiveCameraScreenState extends ConsumerState<LiveCameraScreen> {
   late bool isLive;
   late bool isProgress;
 
@@ -57,6 +60,20 @@ class _LiveCameraScreenState extends State<LiveCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WakelockPlus.enable();
+    ref.listen<AppLifecycleState>(
+      appLifecycleProvider,
+      (previous, next) => {
+        if (next == AppLifecycleState.resumed)
+          {
+            _activateLiveCamera(),
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => super.widget))
+          }
+      },
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
