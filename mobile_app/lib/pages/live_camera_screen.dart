@@ -67,10 +67,6 @@ class _LiveCameraScreenState extends ConsumerState<LiveCameraScreen> {
         if (next == AppLifecycleState.resumed)
           {
             _activateLiveCamera(),
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => super.widget))
           }
       },
     );
