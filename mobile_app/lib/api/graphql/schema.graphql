@@ -1,0 +1,19 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Query {
+  getRaspiTable(id: String!): RaspiTable
+}
+
+type Subscription {
+  onRaspiTable(id: String!): RaspiTable
+}
+
+type RaspiTable{
+  id: String!
+  detection: String!
+  status: Boolean!
+}
