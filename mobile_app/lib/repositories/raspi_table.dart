@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:new_project/api/graphql/query.dart';
 import 'package:new_project/api/graphql/query.graphql.dart';
 import 'package:new_project/api/graphql/subscription.dart';
+import 'package:new_project/models/database.dart';
 import 'package:new_project/util/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,7 +18,7 @@ class RaspiTableRepository {
     this._subscriptions,
   );
 
-  Future<Map> getRaspiTable(String id) async {
+  Future<RapiTable> getRaspiTable(String id) async {
     final responseRaw = await _queries.getRaspiTable(id);
     if (responseRaw.hasErrors) {
       logger
@@ -27,14 +28,13 @@ class RaspiTableRepository {
     final data = Query$GetRaspiTable.fromJson(responseJson);
     logger.info('getRaspiTable: get data');
 
-    return {
-      'id': data.getRaspiTable?.id,
-      'detection': data.getRaspiTable?.detection,
-      'status': data.getRaspiTable?.status
-    };
+    return RapiTable(
+        id: data.getRaspiTable!.id,
+        detection: data.getRaspiTable!.detection,
+        status: convertToStatus(data.getRaspiTable!.status));
   }
 
-  Stream<Map> onRaspiTable(String id) {
+  Stream<RapiTable> onRaspiTable(String id) {
     return _subscriptions.onRaspiTable(id).map((responseRaw) {
       if (responseRaw.hasErrors) {
         logger.severe(
@@ -43,11 +43,17 @@ class RaspiTableRepository {
       final responseJson = json.decode(responseRaw.data);
       logger.info('onRaspiTable: get new data');
 
-      return {
-        'id': responseJson['onRaspiTable']['id'],
-        'detection': responseJson['onRaspiTable']['detection'],
-        'status': responseJson['onRaspiTable']['status']
-      };
+      return RapiTable(
+        id: responseJson['onRaspiTable']['id'],
+        detection: responseJson['onRaspiTable']['detection'],
+        status: switch (responseJson['onRaspiTable']['status']) {
+          'STARTING' => RaspiStatus.starting,
+          'ACTIVE' => RaspiStatus.active,
+          'STOP' => RaspiStatus.stop,
+          'STOPPING' => RaspiStatus.stopping,
+          _ => RaspiStatus.stop,
+        },
+      );
     });
   }
 }

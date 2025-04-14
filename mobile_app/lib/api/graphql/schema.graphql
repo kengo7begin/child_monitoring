@@ -14,6 +14,13 @@ type Subscription {
 
 type RaspiTable{
   id: String!
-  detection: String!
-  status: Boolean!
+  detection: Boolean!
+  status: RaspiStatus!
+}
+
+enum RaspiStatus {
+	STARTING
+	ACTIVE
+	STOP
+	STOPPING
 }
