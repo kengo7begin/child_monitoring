@@ -63,11 +63,10 @@ class _LiveCameraScreenState extends ConsumerState<LiveCameraScreen> {
     WakelockPlus.enable();
     ref.listen<AppLifecycleState>(
       appLifecycleProvider,
-      (previous, next) => {
-        if (next == AppLifecycleState.resumed)
-          {
-            _activateLiveCamera(),
-          }
+      (previous, next) {
+        if (next == AppLifecycleState.resumed) {
+          _activateLiveCamera();
+        }
       },
     );
     return Scaffold(

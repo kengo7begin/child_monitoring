@@ -1,0 +1,15 @@
+query GetRaspiTable($id: String!) {
+  getRaspiTable(id: $id) {
+    status
+    detection
+    id
+  }
+}
+
+subscription OnRaspiTable($id: String!) {
+  onRaspiTable(id: $id) {
+    id
+    detection
+    status
+  }
+}

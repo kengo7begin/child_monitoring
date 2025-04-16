@@ -1,0 +1,32 @@
+# Don't commit these files/directories as recommended by https://dart.dev/guides/libraries/private-files#the-rules
+
+# Miscellaneous
+.DS_Store
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Flutter/Dart/Pub related
+.dart_tool/
+build/
+coverage/
+doc/api/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Generated files
+*.freezed.dart
+*.g.dart
+*.graphql.dart
+
+# Node.js related
+node_modules/
+
+# fastlane related
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
