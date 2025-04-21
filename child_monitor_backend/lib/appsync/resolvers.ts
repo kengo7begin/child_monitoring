@@ -27,3 +27,17 @@ export const attachResolvers = (
         responseMappingTemplate: appsync.MappingTemplate.fromString("$util.toJson($ctx.result)"),
     });
 };
+
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+
+export const addGetSignedUrlResolver = (
+    api: appsync.GraphqlApi,
+    lambdaFn: lambda.Function
+) => {
+    const lambdaDs = api.addLambdaDataSource('getSignedUrlDataSource', lambdaFn);
+
+    lambdaDs.createResolver('getSignedUrlResolver', {
+        typeName: 'Query',
+        fieldName: 'getSignedUrl',
+    });
+};
