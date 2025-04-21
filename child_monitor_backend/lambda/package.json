@@ -1,0 +1,16 @@
+{
+    "name": "child-monitor-lambda",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "dist/s3EventHandler.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "graphql-request": "^6.1.0",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    }
+}

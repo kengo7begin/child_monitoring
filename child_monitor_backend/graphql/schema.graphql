@@ -1,0 +1,19 @@
+type Metadata {
+  id: ID!
+  bucket: String!
+  key: String!
+  createdAt: AWSDateTime!
+}
+
+type Mutation {
+  addMetadata(id: ID!, bucket: String!, key: String!, createdAt: AWSDateTime!): Metadata
+}
+
+type Query {
+  getMetadata(id: ID!): Metadata
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
