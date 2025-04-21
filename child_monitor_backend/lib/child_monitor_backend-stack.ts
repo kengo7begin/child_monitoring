@@ -1,32 +1,23 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { Bucket, EventType } from 'aws-cdk-lib/aws-s3';
-import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications';
+import { createMetadataTable } from './dynamoDB/metadata_table';
+import { createGraphqlApi } from './appsync/graphql_api';
+import { attachResolvers } from './appsync/resolvers';
+import { createS3EventHandlerLambda } from './lambda/s3_event_handler';
+import { configureS3Notification } from './s3/backet_notification';
 
 export class ChildMonitorBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
+    const metadataTable = createMetadataTable(this);
+    const api = createGraphqlApi(this);
 
-    // Define the Lambda function resource
-    const s3EventHandler = new lambda.Function(this, "s3EventHandler", {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      handler: "s3EventHandler.handler",
-      functionName: "s3EventHandler",
-      code: new lambda.AssetCode("lambda/dist"),
-    });
+    attachResolvers(api, metadataTable);
 
-    // 既存のS3バケットを取得
-    const existing_bucket = Bucket.fromBucketArn(
-      this,
-      '20250414-raspi-camera',
-      'arn:aws:s3:::20250414-raspi-camera'
-    )
+    const s3EventHandler = createS3EventHandlerLambda(this, api);
+    configureS3Notification(this, s3EventHandler);
+    s3EventHandler.addEnvironment("APPSYNC_API_URL", "https://cqw6ap65t5aznlpwgcngkgerv4.appsync-api.ap-northeast-1.amazonaws.com/graphql");
+    s3EventHandler.addEnvironment("APPSYNC_API_KEY", "da2-5ui3d5erqvcdpoh75txx3y3iv4");
 
-    // S3Notificationを設定
-    existing_bucket.addEventNotification(
-      EventType.OBJECT_CREATED_PUT,
-      new LambdaDestination(s3EventHandler)
-    )
   }
 }
