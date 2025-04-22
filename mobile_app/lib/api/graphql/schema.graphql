@@ -6,10 +6,25 @@ schema {
 
 type Query {
   getRaspiTable(id: String!): RaspiTable
+  listPictureMetadata(limit: Int, nextToken: String): PictureMetadataConnection
+  getSignedUrl(keys: [String!]!): [String!]!
 }
 
 type Subscription {
   onRaspiTable(id: String!): RaspiTable
+  onAddPictureMetadata: PictureMetadata
+}
+
+type PictureMetadata {
+  id: ID!
+  bucket: String!
+  key: String!
+  createdAt: String!
+}
+
+type PictureMetadataConnection {
+  items: [PictureMetadata!]!
+  nextToken: String
 }
 
 type RaspiTable{
