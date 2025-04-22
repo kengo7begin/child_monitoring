@@ -11,7 +11,6 @@ type PictureMetadataConnection {
 }
 
 type Query {
-  getPictureMetadata(id: ID!): PictureMetadata
   listPictureMetadata(limit: Int, nextToken: String): PictureMetadataConnection
   getSignedUrl(keys: [String!]!): [String!]!
 }
@@ -28,4 +27,5 @@ type Subscription {
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }

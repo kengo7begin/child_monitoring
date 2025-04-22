@@ -24,7 +24,14 @@ export const attachResolvers = (
         }
       }
     `),
-    responseMappingTemplate: appsync.MappingTemplate.fromString("$util.toJson($ctx.result)")
+    responseMappingTemplate: appsync.MappingTemplate.fromString(`
+      $util.toJson({
+        "id": $ctx.args.id,
+        "bucket": "metadata",
+        "key": $ctx.args.key,
+        "createdAt": $ctx.args.createdAt
+      })
+    `)
   });
 
   dataSource.createResolver("listPictureMetadataResolver", {

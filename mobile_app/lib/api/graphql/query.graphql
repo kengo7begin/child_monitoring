@@ -6,6 +6,30 @@ query GetRaspiTable($id: String!) {
   }
 }
 
+query ListPictureMetadata($limit: Int, $nextToken: String) {
+  listPictureMetadata(limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      key
+      createdAt
+    }
+    nextToken
+  }
+}
+
+
+query GetSignedUrl($keys: [String!]!) {
+  getSignedUrl(keys: $keys)
+}
+
+subscription OnAddPictureMetadata {
+  onAddPictureMetadata {
+    id
+    key
+    createdAt
+  }
+}
+
 subscription OnRaspiTable($id: String!) {
   onRaspiTable(id: $id) {
     id

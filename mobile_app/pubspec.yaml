@@ -31,6 +31,7 @@ dependencies:
   envied: ^1.1.1
   envied_generator: ^1.1.1
   freezed: ^2.5.2
+  cached_network_image: ^3.3.1
 
 dev_dependencies:
   flutter_test:

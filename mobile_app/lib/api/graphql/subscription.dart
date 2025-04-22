@@ -27,4 +27,26 @@ class GraphQLSubscription {
       },
     );
   }
+
+  Stream<GraphQLResponse> onAddPictureMetadata() {
+    final request = GraphQLRequest(
+      document: r'''
+      subscription OnAddPictureMetadata {
+        onAddPictureMetadata {
+          id
+          key
+          createdAt
+        }
+      }''',
+    );
+
+    logger.info('onAddPictureMetadata call');
+
+    return Amplify.API.subscribe(
+      request,
+      onEstablished: () {
+        logger.info('subscription: onAddPictureMetadata is established');
+      },
+    );
+  }
 }
