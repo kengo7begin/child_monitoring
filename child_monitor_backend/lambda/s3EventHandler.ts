@@ -1,18 +1,10 @@
 import { S3Event } from "aws-lambda";
 import { v4 as uuidv4 } from "uuid";
 import fetch from "node-fetch";
+import { mutationAddPictureMetadata } from "../graphql/mutation";
 
 const APPSYNC_API_URL = process.env.APPSYNC_API_URL!;
 const APPSYNC_API_KEY = process.env.APPSYNC_API_KEY!;
-
-const mutation = `
-  mutation AddMetadata($id: ID!, $bucket: String!, $key: String!, $createdAt: AWSDateTime!) {
-    addMetadata(id: $id, bucket: $bucket, key: $key, createdAt: $createdAt) {
-      id
-    }
-  }
-`;
-
 
 export const handler = async (event: S3Event) => {
     for (const record of event.Records) {
@@ -37,7 +29,7 @@ export const handler = async (event: S3Event) => {
                     "x-api-key": APPSYNC_API_KEY,
                 },
                 body: JSON.stringify({
-                    query: mutation,
+                    query: mutationAddPictureMetadata,
                     variables,
                 }),
             });
