@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { createMetadataTable } from './dynamoDB/metadata_table';
+import { createPictureMetadataTable } from './dynamoDB/metadata_table';
 import { createGraphqlApi } from './appsync/graphql_api';
 import { addGetSignedUrlResolver, attachResolvers } from './appsync/resolvers';
 import { createS3EventHandlerLambda } from './lambda/s3_event_handler';
@@ -11,7 +11,7 @@ import { importRaspiCameraBucket } from './s3/bucket';
 export class ChildMonitorBackendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    const metadataTable = createMetadataTable(this);
+    const metadataTable = createPictureMetadataTable(this);
     const api = createGraphqlApi(this);
     const bucket = importRaspiCameraBucket(this);
 

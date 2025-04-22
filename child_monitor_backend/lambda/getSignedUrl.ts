@@ -7,16 +7,21 @@ const BUCKET_NAME = process.env.BUCKET_NAME!;
 export const handler = async (event: any) => {
     console.log("Received event:", JSON.stringify(event, null, 2));
 
-    const key = event.arguments.key;
+    const keys: string[] = event.arguments.keys;
 
     try {
-        const command = new GetObjectCommand({
-            Bucket: BUCKET_NAME,
-            Key: key,
-        });
+        const urls = await Promise.all(
+            keys.map(async (key) => {
+                const command = new GetObjectCommand({
+                    Bucket: BUCKET_NAME,
+                    Key: key,
+                });
 
-        const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1時間
-        return url;
+                return getSignedUrl(s3, command, { expiresIn: 3600 });
+            })
+        );
+
+        return urls;
     } catch (err) {
         console.error(err);
         throw new Error("Failed to generate presigned URL");

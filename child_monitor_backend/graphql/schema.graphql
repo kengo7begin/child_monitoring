@@ -1,17 +1,28 @@
-type Metadata {
+type PictureMetadata {
   id: ID!
   bucket: String!
   key: String!
   createdAt: AWSDateTime!
 }
 
-type Mutation {
-  addMetadata(id: ID!, bucket: String!, key: String!, createdAt: AWSDateTime!): Metadata
+type PictureMetadataConnection {
+  items: [PictureMetadata!]!
+  nextToken: String
 }
 
 type Query {
-  getMetadata(id: ID!): Metadata
-  getSignedUrl(key: String!): String
+  getPictureMetadata(id: ID!): PictureMetadata
+  listPictureMetadata(limit: Int, nextToken: String): PictureMetadataConnection
+  getSignedUrl(keys: [String!]!): [String!]!
+}
+
+type Mutation {
+  addPictureMetadata(id: ID!, bucket: String!, key: String!, createdAt: AWSDateTime!): PictureMetadata
+}
+
+type Subscription {
+  onAddPictureMetadata: PictureMetadata
+    @aws_subscribe(mutations: ["addPictureMetadata"])
 }
 
 schema {
