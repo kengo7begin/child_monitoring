@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:new_project/util/logger.dart';
@@ -27,7 +25,7 @@ class GraphQLQueries {
     return Amplify.API.query(request: request).response;
   }
 
-  Future<GraphQLResponse> listPictureMetadata(Int? limit, String? nextToken) {
+  Future<GraphQLResponse> listPictureMetadata(int? limit, String? nextToken) {
     final request = GraphQLRequest(
       document: r'''
         query ListPictureMetadata($limit: Int, $nextToken: String) {

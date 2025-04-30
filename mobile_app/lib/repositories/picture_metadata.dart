@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:new_project/api/graphql/query.dart';
 import 'package:new_project/api/graphql/query.graphql.dart';
@@ -20,7 +19,7 @@ class PictureMetadataRepository {
   );
 
   Future<PictureMetadataConnection> listPictureMetadata(
-      Int? limit, String? nextToken) async {
+      int? limit, String? nextToken) async {
     final responseRaw = await _queries.listPictureMetadata(limit, nextToken);
     if (responseRaw.hasErrors) {
       logger
