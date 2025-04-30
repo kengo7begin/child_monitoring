@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:new_project/repositories/picture_metadata.dart';
 import 'package:new_project/util/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,7 +8,7 @@ part 'picture_keys_view_model.g.dart';
 @Riverpod(keepAlive: true)
 class PictureKeysViewModel extends _$PictureKeysViewModel {
   @override
-  Future<List<String>> build(Int? limit, String? nextToken) async {
+  Future<List<String>> build(int? limit, String? nextToken) async {
     final pictureMetadata = await ref
         .watch(pictureMetadataRepositoryProvider)
         .listPictureMetadata(limit, nextToken);
