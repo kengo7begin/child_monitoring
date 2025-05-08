@@ -1,4 +1,4 @@
-type PictureMetadata {
+type PictureMetadata @aws_iam {
   id: ID!
   bucket: String!
   key: String!
@@ -16,7 +16,12 @@ type Query {
 }
 
 type Mutation {
-  addPictureMetadata(id: ID!, bucket: String!, key: String!, createdAt: AWSDateTime!): PictureMetadata
+  addPictureMetadata(
+    id: ID!, 
+    bucket: String!, 
+    key: String!, 
+    createdAt: AWSDateTime!
+    ): PictureMetadata @aws_iam
 }
 
 type Subscription {
