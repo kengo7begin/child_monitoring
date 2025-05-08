@@ -13,7 +13,9 @@ export const createS3EventHandlerLambda = (scope: Construct, api: appsync.Graphq
         functionName: "s3EventHandler",
         environment: {
             APPSYNC_API_URL: api.graphqlUrl,
-            APPSYNC_API_KEY: api.apiKey || "",
+        },
+        bundling: {
+            externalModules: [],
         },
     });
 

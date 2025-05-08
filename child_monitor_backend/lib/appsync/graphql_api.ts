@@ -17,7 +17,12 @@ export const createGraphqlApi = (scope: Construct) => {
                 userPoolConfig: {
                     userPool
                 },
-            }
+            },
+            additionalAuthorizationModes: [
+                {
+                    authorizationType: appsync.AuthorizationType.IAM,
+                },
+            ],
         },
         xrayEnabled: true,
     });
