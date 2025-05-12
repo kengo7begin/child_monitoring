@@ -1,4 +1,6 @@
-type PictureMetadata @aws_iam {
+type PictureMetadata 
+  @aws_cognito_user_pools
+  @aws_iam {
   id: ID!
   bucket: String!
   key: String!
@@ -21,7 +23,9 @@ type Mutation {
     bucket: String!, 
     key: String!, 
     createdAt: AWSDateTime!
-    ): PictureMetadata @aws_iam
+    ): PictureMetadata 
+    @aws_iam 
+    @aws_cognito_user_pools
 }
 
 type Subscription {
